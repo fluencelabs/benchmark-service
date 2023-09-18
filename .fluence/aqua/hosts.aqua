@@ -26,7 +26,7 @@ func get() -> Hosts:
                     workerId="12D3KooWC812JNkEHUA31JDSJ9kkgiT2QXymPv8ig8g8cJmVwrSC"
                 )
             ],
-            timestamp="2023-09-18T14:16:56.454Z",
+            timestamp="2023-09-18T14:38:53.654Z",
             relayId="12D3KooWPr286GAaLxVXJqHR4bPWZdoxQkGBwUchruaopAUf6SPm",
             dummyDealId="defaultWorker_12D3KooWCKiM9upwb5krieP8efWnphPG6PfSREpGxbYU5KTRbXr6_5549652282917006"
         )]
