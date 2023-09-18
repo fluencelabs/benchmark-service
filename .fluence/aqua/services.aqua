@@ -1,0 +1,22 @@
+data ListFilesResult:
+  result: []string
+  error: string
+  has_error: bool
+
+data ReadFileResult:
+  result: string
+  error: string
+  has_error: bool
+
+data WriteFileResult:
+  error: string
+  has_error: bool
+
+service Benchmark("benchmark"):
+  calculate_factorial(n: u64) -> u64
+  calculate_pi(num_samples: u64) -> f64
+  fibonacci(n: u64) -> u64
+  list_files_in_directory(path: string) -> ListFilesResult
+  matrix_multiply(a: [][]f64, b: [][]f64) -> [][]f64
+  read_file(path: string) -> ReadFileResult
+  write_file(path: string, content: string) -> WriteFileResult
