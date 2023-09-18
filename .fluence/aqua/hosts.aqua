@@ -8,8 +8,8 @@ data SpellLocation:
 data Host:
     definition: string
     installationSpells: []SpellLocation
-    relayId: string
     timestamp: string
+    relayId: string
     dummyDealId: string
 
 data Hosts:
@@ -17,5 +17,17 @@ data Hosts:
 
 func get() -> Hosts:
     <- Hosts(
-        defaultWorker=nil
+        defaultWorker=?[Host(
+            definition="bafkreicya47ibz4ouw2vnkgvxktirf72nyin56u52ywtgogf5afherj4wi",
+            installationSpells=[
+                SpellLocation(
+                    hostId="12D3KooWPr286GAaLxVXJqHR4bPWZdoxQkGBwUchruaopAUf6SPm",
+                    spellId="e8c56c21-f908-4050-847d-6e79da3f8e4c",
+                    workerId="12D3KooWC812JNkEHUA31JDSJ9kkgiT2QXymPv8ig8g8cJmVwrSC"
+                )
+            ],
+            timestamp="2023-09-18T14:16:56.454Z",
+            relayId="12D3KooWPr286GAaLxVXJqHR4bPWZdoxQkGBwUchruaopAUf6SPm",
+            dummyDealId="defaultWorker_12D3KooWCKiM9upwb5krieP8efWnphPG6PfSREpGxbYU5KTRbXr6_5549652282917006"
+        )]
     )

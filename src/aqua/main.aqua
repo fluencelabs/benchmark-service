@@ -1,0 +1,21 @@
+
+import "@fluencelabs/aqua-lib/builtin.aqua"
+import "services.aqua"
+use "hosts.aqua"
+export runFibonacci
+
+data Worker:
+    pat_id: string
+    host_id: string
+    worker_id: ?string
+
+
+data Answer:
+    answer: ?u64
+
+func runFibonacci() -> []Answer:
+    answers: *Answer
+    on HOST_PEER_ID:
+                answer <- Benchmark.fibonacci(10)
+                answers <<- Answer(answer=?[answer])
+    <- answers

@@ -12,6 +12,7 @@ deals:
   defaultWorker:
     minWorkers: 1
     targetWorkers: 3
+aquaInputPath: src/aqua/main.aqua
 hosts:
   defaultWorker:
     peerIds:

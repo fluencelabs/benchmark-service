@@ -7,5 +7,5 @@
 fluence deal deploy
 
 # Run the deployed code
-fluence run -f 'runDeployedServices()'
+fluence run -f 'runFibonacci()'
 ```
