@@ -6,10 +6,56 @@ use "hosts.aqua"
 import "services.aqua"
 
 export runFibonacci
+export runCalculatePi
+export runCalculateFactorial
+export getInfo
+export getServices
+
+
+data Answer:
+    answer: string
+    peer: string
 
 -- remote
-func runFibonacci() -> string:
+func runFibonacci(n:u64) -> *Answer:
+    hosts <- Hosts.get()
+    installationSpells = hosts.defaultWorker!.installationSpells
+    answers: *Answer
+    for s <- installationSpells:
+        on s.workerId via s.hostId:
+             resp <- Benchmark.fibonacci(n)
+             from_peer_msg <- Debug.stringify(resp)
+             answers <<- Answer(answer=from_peer_msg, peer=s.hostId)
+    <- answers
+
+func runCalculatePi(n:u64) -> *Answer:
+    hosts <- Hosts.get()
+    installationSpells = hosts.defaultWorker!.installationSpells
+    answers: *Answer
+    for s <- installationSpells:
+        on s.workerId via s.hostId:
+             resp <- Benchmark.calculate_pi(n)
+             from_peer_msg <- Debug.stringify(resp)
+             answers <<- Answer(answer=from_peer_msg, peer=s.hostId)
+    <- answers
+
+func runCalculateFactorial(n:u64) -> *Answer:
+    hosts <- Hosts.get()
+    installationSpells = hosts.defaultWorker!.installationSpells
+    answers: *Answer
+    for s <- installationSpells:
+        on s.workerId via s.hostId:
+             resp <- Benchmark.calculate_factorial(n)
+             from_peer_msg <- Debug.stringify(resp)
+             answers <<- Answer(answer=from_peer_msg, peer=s.hostId)
+    <- answers
+
+func getInfo() -> Info, PeerId:
     on HOST_PEER_ID:
-        resp <- Benchmark.fibonacci(10)
-        from_peer_msg <- Debug.stringify(resp)
-    <- from_peer_msg
+        info <- Peer.identify()
+    <- info, HOST_PEER_ID
+
+func getServices() -> []Service, PeerId:
+    on HOST_PEER_ID:
+        srv <- Srv.list()
+    <- srv, HOST_PEER_ID
