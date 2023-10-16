@@ -1,10 +1,14 @@
+data DeleteFileResult:
+  error: string
+  has_error: bool
+
 data ListFilesResult:
   result: []string
   error: string
   has_error: bool
 
 data ReadFileResult:
-  result: string
+  bytes: u64
   error: string
   has_error: bool
 
@@ -15,8 +19,9 @@ data WriteFileResult:
 service Benchmark("benchmark"):
   calculate_factorial(n: u64) -> u64
   calculate_pi(num_samples: u64) -> f64
+  delete_file(path: string) -> DeleteFileResult
   fibonacci(n: u64) -> u64
   list_files_in_directory(path: string) -> ListFilesResult
   matrix_multiply(a: [][]f64, b: [][]f64) -> [][]f64
   read_file(path: string) -> ReadFileResult
-  write_file(path: string, content: string) -> WriteFileResult
+  write_file(path: string, bytes: u64) -> WriteFileResult

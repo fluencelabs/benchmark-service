@@ -10,11 +10,18 @@ export runCalculatePi
 export runCalculateFactorial
 export getInfo
 export getServices
+export workerList
+export runWriteFile
+export runReadFile
+export runDeleteFile
 
 
 data Answer:
     answer: string
     peer: string
+
+service Worker("worker"):
+   list() -> []string
 
 -- remote
 func runFibonacci(n:u64) -> *Answer:
@@ -50,6 +57,40 @@ func runCalculateFactorial(n:u64) -> *Answer:
              answers <<- Answer(answer=from_peer_msg, peer=s.hostId)
     <- answers
 
+func runWriteFile(path: string, bytes:u64) -> *Answer:
+    hosts <- Hosts.get()
+    installationSpells = hosts.defaultWorker!.installationSpells
+    answers: *Answer
+    for s <- installationSpells:
+        on s.workerId via s.hostId:
+             resp <- Benchmark.write_file(path, bytes)
+             from_peer_msg <- Debug.stringify(resp)
+             answers <<- Answer(answer=from_peer_msg, peer=s.hostId)
+    <- answers
+
+func runReadFile(path: string) -> *Answer:
+    hosts <- Hosts.get()
+    installationSpells = hosts.defaultWorker!.installationSpells
+    answers: *Answer
+    for s <- installationSpells:
+        on s.workerId via s.hostId:
+             resp <- Benchmark.read_file(path)
+             from_peer_msg <- Debug.stringify(resp)
+             answers <<- Answer(answer=from_peer_msg, peer=s.hostId)
+    <- answers
+
+func runDeleteFile(path: string) -> *Answer:
+    hosts <- Hosts.get()
+    installationSpells = hosts.defaultWorker!.installationSpells
+    answers: *Answer
+    for s <- installationSpells:
+        on s.workerId via s.hostId:
+             resp <- Benchmark.delete_file(path)
+             from_peer_msg <- Debug.stringify(resp)
+             answers <<- Answer(answer=from_peer_msg, peer=s.hostId)
+    <- answers
+
+
 func getInfo() -> Info, PeerId:
     on HOST_PEER_ID:
         info <- Peer.identify()
@@ -59,3 +100,8 @@ func getServices() -> []Service, PeerId:
     on HOST_PEER_ID:
         srv <- Srv.list()
     <- srv, HOST_PEER_ID
+
+func workerList() -> []string, PeerId:
+    on HOST_PEER_ID:
+         info <- Worker.list()
+    <- info, HOST_PEER_ID

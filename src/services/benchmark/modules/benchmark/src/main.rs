@@ -67,7 +67,7 @@ pub fn calculate_factorial(n: u64) -> u64 {
 
 #[marine]
 pub struct ReadFileResult {
-    result: String,
+    bytes: u64,
     error: String,
     has_error: bool,
 }
@@ -79,23 +79,23 @@ pub fn read_file(path: &str) -> ReadFileResult {
         Ok(file) => file,
         Err(e) => {
             return ReadFileResult {
-                result: "".to_string(),
+                bytes: 0,
                 error: e.to_string(),
                 has_error: true,
             }
         }
     };
     let mut reader = BufReader::new(file);
-    let mut content = String::new();
-    if let Err(e) = reader.read_to_string(&mut content) {
+    let mut content = Vec::new();
+    if let Err(e) = reader.read_to_end(&mut content) {
         ReadFileResult {
-            result: "".to_string(),
+            bytes: 0,
             error: e.to_string(),
             has_error: true,
         }
     } else {
         ReadFileResult {
-            result: content,
+            bytes: content.len() as u64,
             error: "".to_string(),
             has_error: false,
         }
@@ -109,7 +109,7 @@ pub struct WriteFileResult {
 }
 
 #[marine]
-pub fn write_file(path: &str, content: &str) -> WriteFileResult {
+pub fn write_file(path: &str, bytes: u64) -> WriteFileResult {
     let file = File::create(path);
     let file = match file {
         Ok(file) => file,
@@ -122,7 +122,9 @@ pub fn write_file(path: &str, content: &str) -> WriteFileResult {
     };
     let mut writer = BufWriter::new(file);
 
-    if let Err(e) = writer.write_all(content.as_bytes()) {
+    let content: Vec<u8> = (0..bytes).map(|_| rand::random::<u8>()).collect();
+
+    if let Err(e) = writer.write_all(&content) {
         WriteFileResult {
             error: e.to_string(),
             has_error: true,
@@ -164,5 +166,25 @@ pub fn list_files_in_directory(path: &str) -> ListFilesResult {
         result: entries,
         error: "".to_string(),
         has_error: false,
+    }
+}
+
+#[marine]
+pub struct DeleteFileResult {
+    error: String,
+    has_error: bool,
+}
+
+#[marine]
+pub fn delete_file(path: &str) -> DeleteFileResult {
+    match std::fs::remove_file(path) {
+        Ok(()) => DeleteFileResult {
+            error: "".to_string(),
+            has_error: false,
+        },
+        Err(e) => DeleteFileResult {
+            error: e.to_string(),
+            has_error: true,
+        }
     }
 }

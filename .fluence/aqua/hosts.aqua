@@ -18,15 +18,15 @@ data Hosts:
 func get() -> Hosts:
     <- Hosts(
         defaultWorker=?[Host(
-            definition="bafkreicya47ibz4ouw2vnkgvxktirf72nyin56u52ywtgogf5afherj4wi",
+            definition="bafkreigounld7bmdapvs4ntiov4azaxzjyccamzrk7vklwbb7uh3xbiy6i",
             installationSpells=[
                 SpellLocation(
                     hostId="12D3KooWPr286GAaLxVXJqHR4bPWZdoxQkGBwUchruaopAUf6SPm",
-                    spellId="e8c56c21-f908-4050-847d-6e79da3f8e4c",
-                    workerId="12D3KooWC812JNkEHUA31JDSJ9kkgiT2QXymPv8ig8g8cJmVwrSC"
+                    spellId="9d93f963-f038-4251-8e42-935a29d0f2dc",
+                    workerId="12D3KooWFxEYcXWeMBzRCXQkTa1j58TzVFxB5VTDEzuCUjU799zF"
                 )
             ],
-            timestamp="2023-09-18T14:40:31.880Z",
+            timestamp="2023-10-11T11:13:56.064Z",
             relayId="12D3KooWPr286GAaLxVXJqHR4bPWZdoxQkGBwUchruaopAUf6SPm",
             dummyDealId="defaultWorker_12D3KooWCKiM9upwb5krieP8efWnphPG6PfSREpGxbYU5KTRbXr6_5549652282917006"
         )]
